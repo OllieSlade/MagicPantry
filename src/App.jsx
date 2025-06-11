@@ -4,8 +4,10 @@ import Sidebar from './components/sections/sidebar'
 import Results from './components/sections/results'
 import { GoogleGenAI } from "@google/genai";
 import {getRecipiesST} from './apis'
+import getKey from '../../keys/keys'
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyCSQbHofQs7VLuz7OpVW0IiHYZXsCzU6Xc" });
+const apiKey = getKey().geminikey;
+const ai = new GoogleGenAI({apiKey});
 
 async function generate_recipe(ingredients) {
   console.log("Generating recipe with ingredients:", ingredients);
@@ -13,6 +15,7 @@ async function generate_recipe(ingredients) {
     model: "gemini-2.0-flash",
     contents: "format the following response in format and keep excess text to a minimum, just returning the accurate ingredients and step by step guide. Fetch a few recipes that include some or all of these ingredients; " + ingredients.join(", "),
   });
+  console.log("AI Response:", response.text);
   return response.text;
 }
 

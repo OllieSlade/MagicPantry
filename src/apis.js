@@ -1,5 +1,12 @@
+import getKey from '../../keys/keys'
+
+function getApiKey() {
+  const keys = getKey();
+  return keys.spoonacularkey;
+}
+
 export async function getRecipiesST(ingredients) {
-  const url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + ingredients.join(",") + "&number=100&ranking=2&apiKey=" + "c979f76d40ec44c7ab1a3f4d6e697ea1";
+  const url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + ingredients.join(",") + "&number=100&ranking=2&apiKey=" + getApiKey();
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -22,7 +29,7 @@ export async function getRecipiesST(ingredients) {
 }
 
 export async function fetchRecipeST(recipeID) {
-  const url = `https://api.spoonacular.com/recipes/${recipeID}/information?apiKey=c979f76d40ec44c7ab1a3f4d6e697ea1`;
+  const url = `https://api.spoonacular.com/recipes/${recipeID}/information?apiKey=${getApiKey()}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
