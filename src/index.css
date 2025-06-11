@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Italiana";
+    src: url('./assets/fonts/Italiana-Regular.ttf') format('truetype');
+    font-display: swap;
+  }
+
+@theme {
+  --font-title: "Italiana", "serif"; 
+  --font-body: "Georgia", "sans-serif"; 
+  --color-pink: #E8C4CA;
+  --color-grey: #616161;
+  --color-light-pink: #FFEAEA;
+  --color-pastel-red: #BB4940;
+}
