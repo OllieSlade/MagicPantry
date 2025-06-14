@@ -20,6 +20,7 @@ export default async (req, context) => {
 
 async function generate_recipe(ingredients) {
   const apiKey = Netlify.env.get("GEMINI_KEY");
+  console.log(apiKey)
   const ai = new GoogleGenAI({apiKey});
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
