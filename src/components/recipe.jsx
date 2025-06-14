@@ -1,14 +1,13 @@
 import Button from "./interactions/button";
-import {fetchRecipeST} from "../apis";
 
 export default function Recipe({recipe}) {
-    async function openRecipe() {
-        fetchRecipeST(recipe.id).then((result) => {
-            open(result.sourceUrl, "_blank");
-        }).catch((error) => {
-            console.error("Error fetching recipes:", error);
-        });
-    }
+    // async function openRecipe() {
+    //     fetchRecipeST(recipe.id).then((result) => {
+    //         open(result.sourceUrl, "_blank");
+    //     }).catch((error) => {
+    //         console.error("Error fetching recipes:", error);
+    //     });
+    // }
 
     return (
       <div className="flex place-items-center w-full gap-3">

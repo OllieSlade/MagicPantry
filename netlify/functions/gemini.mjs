@@ -1,5 +1,4 @@
 import { GoogleGenAI } from "@google/genai";
-import { Receipt } from "lucide-react";
 
 
 export default async (req, context) => {
@@ -20,7 +19,7 @@ export default async (req, context) => {
 };
 
 async function generate_recipe(ingredients) {
-  const apiKey = Netlify.env.get("MY_API_KEY");
+  const apiKey = Netlify.env.get("GEMINI_KEY");
   const ai = new GoogleGenAI({apiKey});
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
