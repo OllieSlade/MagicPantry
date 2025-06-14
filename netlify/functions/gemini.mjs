@@ -21,7 +21,7 @@ export default async (req, context) => {
 async function generate_recipe(ingredients) {
   const apiKey = Netlify.env.get("GEMINI_KEY");
   console.log(apiKey)
-  const ai = new GoogleGenAI({apiKey});
+  const ai = new GoogleGenAI({apiKey:apiKey});
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: "format the following response in format and keep excess text to a minimum, just returning the accurate ingredients and step by step guide. Fetch a few recipes that include some or all of these ingredients; " + ingredients.join(", "),
