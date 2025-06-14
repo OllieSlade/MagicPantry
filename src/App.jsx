@@ -8,13 +8,18 @@ function processData(ingredientsList) {
 }
 
 async function generate_recipe(ingredients) {
-  return fetch(`https://magicpantry.netlify.app/.netlify/functions/gemini`, {
+  fetch(`https://magicpantry.netlify.app/.netlify/functions/gemini`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ ingredients })
-  })
+  }).then(response => {
+    return response.text();
+  }).catch(error => {
+    console.error("Error generating recipe:", error);
+    return "Error generating recipe. Please try again.";
+  });
 }
 
 function App() {
