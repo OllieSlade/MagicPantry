@@ -4,21 +4,8 @@ import { GoogleGenAI } from "@google/genai";
 export default async (req, context) => {
     console.log("Received request:", req.body, "Type:", typeof req.body);
 
-    let ingredients;
-    if (typeof req.body === "string") {
-        try {
-            const parsed = JSON.parse(req.body);
-            ingredients = parsed.ingredients;
-        } catch (err) {
-            console.error("Failed to parse JSON body:", err);
-            return new Response("Invalid JSON body", { status: 400 });
-        }
-    } else if (typeof req.body === "object" && req.body !== null) {
-        ingredients = req.body.ingredients;
-    } else {
-        return new Response("Invalid request body", { status:400 });
-    }
-
+    let ingredients = req.json().ingredients;
+    
     console.log("Ingredients:", ingredients);
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
