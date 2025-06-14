@@ -11,7 +11,7 @@ export default async (req, context) => {
     
     try {
         const recipe = await generate_recipe(ingredients);
-        return new Response(recipe)
+        return new Response(JSON.stringify(recipe))
     } catch (error) {
         console.error("Error generating recipe:", error);
         return new Response(error)
@@ -20,7 +20,6 @@ export default async (req, context) => {
 
 async function generate_recipe(ingredients) {
   const apiKey = Netlify.env.get("GEMINI_KEY");
-  console.log(apiKey)
   const ai = new GoogleGenAI({apiKey:apiKey});
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
