@@ -3,12 +3,12 @@ import { GoogleGenAI } from "@google/genai";
 
 export default async (req, context) => {
     console.log("Received request:", req.body, "Type:", typeof req.body);
-
-    let ingredients = req.json().then(data => data.ingredients);
+    const body = await req.json();
+    let ingredients = body.ingredients;
 
     console.log("Ingredients:", ingredients);
 
-    
+
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
         return new Response("Invalid or missing ingredients", { status: 400 });
     }
