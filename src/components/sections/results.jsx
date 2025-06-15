@@ -20,9 +20,12 @@ export default function Results({AIrecipe, APIrecipe, refresh}) {
         <div className='p-5 overflow-auto'>
             <Title text="Recipes" btnLabel="Get Results" onClick={refresh} btnIcon="refresh-ccw" />
             <div class="flex gap-3 py-2">
-              <Button onClick={updateResultView(0)} btnLabel="Spoonacular"/>
-              <Button onClick={updateResultView(1)} btnLabel="TheMealDB"/>
-              <Button onClick={updateResultView(2)} btnLabel="Gemini AI"/>
+              <input type="radio" name="view" id="spoonacular" className="radioState hidden" onClick={updateResultView(0)} defaultChecked/>
+              <label for="spoonacular" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Spoonacular</label>
+              <input type="radio" name="view" id="themealdb" className="radioState hidden" onClick={updateResultView(1)} />
+              <label for="themealdb" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">TheMealDB</label>
+              <input type="radio" name="view" id="gemini" className="radioState hidden" onClick={updateResultView(2)} />
+              <label for="gemini" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Gemini AI</label>
             </div>
 
             {viewResult == 0 ? <div class="flex flex-col gap-3 mt-4">

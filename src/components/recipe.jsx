@@ -1,13 +1,28 @@
 import Button from "./interactions/button";
 
 export default function Recipe({recipe}) {
-    // async function openRecipe() {
-    //     fetchRecipeST(recipe.id).then((result) => {
-    //         open(result.sourceUrl, "_blank");
-    //     }).catch((error) => {
-    //         console.error("Error fetching recipes:", error);
-    //     });
-    // }
+    function openRecipe() {
+      fetch(`${window.location.origin}/.netlify/functions/spoonacular_one`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id: recipe.id})
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Response status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        window.open(data.sourceUrl, "_blank");
+      })
+      .catch((error) => {
+        console.error("Error opening recipe:", error);
+      });
+
+    }
 
     return (
       <div className="flex place-items-center w-full gap-3">

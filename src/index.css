@@ -14,3 +14,8 @@
   --color-light-pink: #FFEAEA;
   --color-pastel-red: #BB4940;
 }
+
+.radioState:checked + .radioStyle {
+  background-color: var(--color-grey);
+  color: white
+}

@@ -2,12 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 
 
 export default async (req, context) => {
-    console.log("Received request:", req.body, "Type:", typeof req.body);
     const body = await req.json();
     let ingredients = body.ingredients;
-
-    console.log("Ingredients:", ingredients);
-
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
         return new Response("Invalid or missing ingredients", { status: 400 });
@@ -15,7 +11,7 @@ export default async (req, context) => {
     
     try {
         const recipe = await generate_recipe(ingredients);
-        return new Response(JSON.stringify(recipe));
+        return new Response(recipe);
     } catch (error) {
         console.error("Error generating recipe:", error);
         return new Response(String(error), { status: 500 });
@@ -27,8 +23,7 @@ async function generate_recipe(ingredients) {
   const ai = new GoogleGenAI({apiKey:apiKey});
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
-    contents: "format the following response in format and keep excess text to a minimum, just returning the accurate ingredients and step by step guide. Fetch a few recipes that include some or all of these ingredients; " + ingredients.join(", "),
+    contents: "format this response in markdown and keep additional text to a minimum, as part of this do not repeat any part of this command in you response, just return the accurate ingredients and step by step guide. Fetch a few recipes that include some or all of the following ingredients; " + ingredients.join(", "),
   });
-  console.log("AI Response:", response.text);
   return response.text;
 }
