@@ -26,9 +26,9 @@ export default function Recipe({recipe}) {
 
     return (
       <div className="flex place-items-center w-full gap-3">
-        <img src={recipe.image} class="w-40 h-auto object-cover rounded-sm"/>
+        <img src={recipe.image} className="w-40 h-auto object-cover rounded-sm"/>
         <div>
-            <h2 className="text-xl font-bold text-black font-body">{recipe.title} <span class="text-sm font-normal">[{recipe.likes} Likes]</span></h2>
+            <h2 className="text-xl font-bold text-black font-body">{recipe.title} <span className="text-sm font-normal">[{recipe.likes} Likes]</span></h2>
             <p>From your Pantry: {recipe.usedIngredients && recipe.usedIngredients.join(", ")}</p>
             <p>Extra Ingredients: {recipe.missedIngredients && recipe.missedIngredients.join(", ")}</p>
             <Button btnLabel="View Recipe" onClick={openRecipe}/>

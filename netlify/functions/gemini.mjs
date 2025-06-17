@@ -6,7 +6,7 @@ export default async (req, context) => {
     let ingredients = body.ingredients;
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
-        return new Response("Invalid or missing ingredients", { status: 400 });
+        return new Response(JSON.stringify({ error: "Invalid or missing ingredients" }), { status: 400 });
     }
     
     try {
@@ -14,7 +14,7 @@ export default async (req, context) => {
         return new Response(recipe);
     } catch (error) {
         console.error("Error generating recipe:", error);
-        return new Response(String(error), { status: 500 });
+        return new Response(JSON.stringify({ error: String(error) }), { status: 500 });
     }
 };
 

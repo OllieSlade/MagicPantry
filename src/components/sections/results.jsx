@@ -19,27 +19,27 @@ export default function Results({AIrecipe, APIrecipe, refresh}) {
       
         <div className='p-5 overflow-auto'>
             <Title text="Recipes" btnLabel="Get Results" onClick={refresh} btnIcon="refresh-ccw" />
-            <div class="flex gap-3 py-2">
+            <div className="flex gap-3 py-2">
               <input type="radio" name="view" id="spoonacular" className="radioState hidden" onClick={updateResultView(0)} defaultChecked/>
-              <label for="spoonacular" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Spoonacular</label>
+              <label htmlFor="spoonacular" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Spoonacular</label>
               <input type="radio" name="view" id="themealdb" className="radioState hidden" onClick={updateResultView(1)} />
-              <label for="themealdb" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">TheMealDB</label>
+              <label htmlFor="themealdb" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">TheMealDB</label>
               <input type="radio" name="view" id="gemini" className="radioState hidden" onClick={updateResultView(2)} />
-              <label for="gemini" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Gemini AI</label>
+              <label htmlFor="gemini" className="radioStyle text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">Gemini AI</label>
             </div>
 
-            {viewResult == 0 ? <div class="flex flex-col gap-3 mt-4">
+            {viewResult == 0 ? <div className="flex flex-col gap-3 mt-4">
               {APIrecipe.map(recipe => (
                 <Fragment key={recipe.id}>
                   <Recipe recipe={recipe} />
-                  <hr class="border-gray-400"/>
+                  <hr className="border-gray-400"/>
                 </Fragment>
 
               ))}
             </div>: null}
 
 
-            {viewResult == 1 ? <div class="flex flex-col gap-3 mt-4">
+            {viewResult == 1 ? <div className="flex flex-col gap-3 mt-4">
               <p>Coming soon</p>
 
             </div>: null}
