@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Profile({accountName}) {
+function Profile({accountName, setAccountName, setIngredient}) {
   const [success, setSuccess] = React.useState(false);
 
   function logout() {
     document.cookie = 'user_id=; Max-Age=0; path=/; domain=' + location.hostname;
+    setAccountName("");
+    setIngredient([]);
     setSuccess(true);
   }
 
-  if (accountName === "") {
-    const navigate = useNavigate();
-    navigate("/login");
-  }
+  // if (accountName === "") {
+  //   const navigate = useNavigate();
+  //   navigate("/login");
+  // }
 
   if (success) {
     return (

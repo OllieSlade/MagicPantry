@@ -51,7 +51,7 @@ export default function Sidebar({setIngredient, ingredientsList}) {
   }
 
   return (
-    <section className="bg-pink min-h-[calc(100vh-72px)] w-96">
+    <section className="bg-pink min-h-[calc(100vh-72px)] w-full md:w-96">
         <div className="py-5 px-8">
             <Title text="My Pantry" btnLabel='Clear Pantry' onClick={clearIngredients} />
             <div className="pt-2">

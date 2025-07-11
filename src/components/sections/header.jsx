@@ -23,7 +23,7 @@ export default function Header({accountName}) {
           <Link to="/"><House className="text-white" size={32} /></Link>
           <Link to={checkCookie()}>
             <UserRoundPen className="text-white inline" size={32} />
-            {accountName ? <p className="text-white font-bold inline ps-2">{accountName}</p> : null}
+            {accountName ? <p className="text-white font-bold hidden md:inline ps-2">{accountName}</p> : null}
           </Link>
           
         </div>

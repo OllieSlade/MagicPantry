@@ -8,7 +8,7 @@ export default function Button({btnLabel, btnIcon, onClick, secondary=false}) {
     );
   } else {
     return (
-      <button type='submit' onClick={onClick} className="text-sm font-body border-1 px-2 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">{btnLabel} <DynamicIcon className="inline align-text-bottom ms-1" size={16} name={btnIcon}/></button>
+      <button type='submit' onClick={onClick} className="text-sm font-body border-1 px-3 py-0.5 rounded-sm border-grey text-grey hover:bg-grey hover:text-white cursor-pointer">{btnLabel} <DynamicIcon className="inline align-text-bottom ms-1" size={16} name={btnIcon}/></button>
     );
   }
 }

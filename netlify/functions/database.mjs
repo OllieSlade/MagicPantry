@@ -99,6 +99,47 @@ export default async (req, context) => {
                 console.error("Error toggling include status:", error);
                 return new Response(JSON.stringify({ error: error.message }), { status: 500 });
             }
+        } else if (body.action == "addBookmark") {
+            const userId = context.cookies.get("user_id");
+            if (!userId) {
+                return new Response(JSON.stringify({ error: "User not logged in" }), { status: 401 });
+            }
+
+            try {
+                const result = await addBookmark(userId, body.recipe_id);
+                return new Response(JSON.stringify(result), { status: 200 });
+            } catch (error) {
+                console.error("Error adding bookmark:", error);
+                return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+            }
+        } else if (body.action == "deleteBookmark") {
+            const userId = context.cookies.get("user_id");
+            if (!userId) {
+                return new Response(JSON.stringify({ error: "User not logged in" }), { status: 401 });
+            }
+
+            try {
+                const result = await deleteBookmark(userId, body.recipe_id);
+                return new Response(JSON.stringify(result), { status: 200 });
+            } catch (error) {
+                console.error("Error deleting bookmark:", error);
+                return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+            }
+        } else if (body.action == "getBookmarks") {
+            const userId = context.cookies.get("user_id");
+            if (!userId) {
+                return new Response(JSON.stringify({ error: "User not logged in" }), { status: 401 });
+            }
+
+            const db = databaseConnection();
+            return db("SELECT * FROM bookmarks WHERE user_id = $1", [userId])
+                .then(result => {
+                    return new Response(JSON.stringify(result), { status: 200 });
+                })
+                .catch(error => {
+                    console.error("Error fetching bookmarks:", error);
+                    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+                });
         }
 
 
@@ -136,17 +177,25 @@ async function getUser(username="", user_id="") {
         return null;
     }
 
-    return db("SELECT * FROM users WHERE username = $1 OR user_id = $2", [username, user_id])
-        .then(result => {
-            if (result.length > 0) {
-                return result[0]; // User exists
-            } else {
-                return null; // User does not exist
-            }
-        })
-        .catch(error => {
-            throw new Error("Database error: " + error.message);
-        });
+    if (user_id) {
+        return db("SELECT * FROM users WHERE user_id = $1", [user_id])
+            .then(result => {
+                if (result.length > 0) {
+                    return result[0]; // User exists
+                } else {
+                    return null; // User does not exist
+                }
+            });
+    } else if (username) {
+        return db("SELECT * FROM users WHERE username = $1", [username])
+            .then(result => {
+                if (result.length > 0) {
+                    return result[0]; // User exists
+                } else {
+                    return null; // User does not exist
+                }
+            });
+    }
 }
 
 async function addToPantry(user_id, ingredient) {
@@ -213,6 +262,47 @@ async function clearPantry(user_id) {
         });
 }
 
+async function addBookmark(user_id, recipe_id) {
+    const db = databaseConnection();
+
+    return db("INSERT INTO bookmarks (user_id, recipe_id) VALUES ($1, $2) RETURNING *", [user_id, recipe_id])
+        .then(result => {
+            return result[0];
+        })
+        .catch(error => {
+            throw new Error("Database error: " + error.message);
+        });
+}
+
+async function deleteBookmark(user_id, recipe_id) {
+    const db = databaseConnection();
+
+    return db("DELETE FROM bookmarks WHERE user_id = $1 AND recipe_id = $2 RETURNING *", [user_id, recipe_id])
+        .then(result => {
+            if (result.length > 0) {
+                return result[0]; // Return the deleted bookmark
+            } else {
+                throw new Error("Bookmark not found");
+            }
+        })
+        .catch(error => {
+            throw new Error("Database error: " + error.message);
+        });
+}
+
+async function getBookmarks(user_id) {
+    const db = databaseConnection();
+
+    return db("SELECT * FROM bookmarks WHERE user_id = $1", [user_id])
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            throw new Error("Database error: " + error.message);
+        });
+}
+
 function databaseConnection() {
     const dbString = Netlify.env.get("NETLIFY_DATABASE_URL");
-    return neon(dbString);}
+    return neon(dbString);
+}

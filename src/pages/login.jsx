@@ -2,7 +2,7 @@ import Button from "../components/interactions/button";
 import { Link } from "react-router-dom";
 import React from "react";
 
-function Login() {
+function Login({initialise}) {
   const [showError, setShowError] = React.useState([false, ""]);
   const [success, setSuccess] = React.useState(false);
 
@@ -29,6 +29,7 @@ function Login() {
           setSuccess(true);
           return response.json().then(data => {
             setCookie("user_id", data.user_id, 90);
+            initialise();
           });
       } else {
           setShowError([true, "An error occurred while logging in. Please try again later."]);

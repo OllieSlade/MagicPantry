@@ -47,41 +47,47 @@ function App() {
   const [ingredientsList, setIngredient] = useState([]);
   const [accountName, setAccountName] = useState("");
 
+  function initialise() {
+    getPantry().then((data) => {
+        if (data) {
+          data.forEach(element => {
+              setIngredient(prev => [
+                  ...prev,
+                  { id: element.id, ingredient: element.item_name, include: element.include, quantity: element.quantity }
+              ]);
+          });
+        }
+      });
+
+      getUser().then((data) => {
+        if (data) {
+          setAccountName(data.username);
+        }
+      });
+    }
+
   if (!didInit) {
     didInit = true;
-    getPantry().then((data) => {
-      if (data) {
-        data.forEach(element => {
-            setIngredient(prev => [
-                ...prev,
-                { id: element.id, ingredient: element.item_name, include: element.include, quantity: element.quantity }
-            ]);
-        });
-      }
-    });
-
-    getUser().then((data) => {
-      if (data) {
-        setAccountName(data.username);
-      }
-    });
+    initialise();
   }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout accountName={accountName} />}>
-          <Route index element={<Home ingredientsList={ingredientsList} setIngredient={setIngredient} />} />
+          <Route index element={<Home ingredientsList={ingredientsList} accountName={accountName} setIngredient={setIngredient} />} />
           <Route element={<LoginLayout />}>
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<Login initialise={initialise} />} />
           </Route>
           <Route element={<LoginLayout />}>
             <Route path="create-account" element={<CreateAccount />} />
           </Route>
           <Route element={<LoginLayout />}>
-            <Route path="profile" element={<Profile accountName={accountName} />} />
+            <Route path="profile" element={<Profile accountName={accountName} setAccountName={setAccountName} setIngredient={setIngredient} />} />
           </Route>
-          <Route path="*" element={<NoPage />} />
+          <Route element={<LoginLayout />}>
+            <Route path="*" element={<NoPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

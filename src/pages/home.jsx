@@ -39,9 +39,33 @@ function fetch_recipes(ingredients) {
     });
 }
 
-function Home({ ingredientsList, setIngredient }) {
+function getBookmarks() {
+  return fetch(`${window.location.origin}/.netlify/functions/database`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ action: "getBookmarks" })
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Fetched bookmarks:", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error fetching bookmarks:", error);
+    });
+}
+
+function Home({ ingredientsList, setIngredient, accountName }) {
   const [AIrecipe, setAIRecipe] = useState("");
   const [APIrecipe, setAPIRecipe] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
 
   function refresh() {
     const ingredients = processData(ingredientsList);
@@ -49,6 +73,7 @@ function Home({ ingredientsList, setIngredient }) {
       alert("Please add at least one ingredient to generate recipes.");
       return;
     }
+
     setAIRecipe("Loading AI Result");
     generate_recipe(ingredients).then((result) => {
       console.log("Generated Recipe:", result);
@@ -61,13 +86,20 @@ function Home({ ingredientsList, setIngredient }) {
     }).catch((error) => {
       console.error("Error fetching recipes:", error);
     });
+
+    getBookmarks().then((bookmarks) => {
+      console.log("Fetched Bookmarks:", bookmarks);
+      setBookmarks(bookmarks);
+    }).catch((error) => {
+      console.error("Error fetching bookmarks:", error);
+    });
  
   }
 
   return (
       <section className="flex">
         <Sidebar ingredientsList={ingredientsList} setIngredient={setIngredient} />
-        <Results refresh={refresh} AIrecipe={AIrecipe} APIrecipe={APIrecipe}/>
+        <Results refresh={refresh} accountName={accountName} AIrecipe={AIrecipe} APIrecipe={APIrecipe} bookmarks={bookmarks}/>
       </section>
   )
 }
