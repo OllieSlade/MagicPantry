@@ -6,7 +6,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import CreateAccount from "./pages/createAccount";
 import Profile from "./pages/profile";
-import NoPage from "./pages/NoPage";
+import NoPage from "./pages/nopage";
 
 let didInit = false;
 
